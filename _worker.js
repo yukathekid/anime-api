@@ -2,9 +2,9 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Captura a versão da URL (ex: 'v1' ou 'v2')
+    // Captura a versão da URL (ex: 'v1')
     const pathSegments = url.pathname.split('/');
-    const version = pathSegments[1]; // A versão será a segunda parte do caminho (índice 2)
+    const version = pathSegments[1]; // A versão será a primeira parte do caminho (índice 1)
 
     // Lista de versões suportadas
     const supportedVersions = ['v1'];
@@ -14,8 +14,9 @@ export default {
       return new Response('Versão não suportada', { status: 404 });
     }
 
-    // Captura o caminho da categoria (ex: 'shinobi')
-    const categoriaQuery = pathSegments.pop(); // Pega a última parte do caminho, como 'shinobi'
+    // Captura a categoria e o ID/nome da URL
+    const categoriaQuery = pathSegments[2]; // Pega a segunda parte do caminho, como 'shinobi'
+    const idOuNome = pathSegments[3]; // Pega a terceira parte do caminho, que pode ser o ID ou nome
 
     // Busca o JSON de personagens do GitHub Pages
     const response = await fetch(`https://yukathekid.github.io/anime-api/${version}/characters.json`);
@@ -35,23 +36,15 @@ export default {
       return new Response('Categoria não encontrada', { status: 404 });
     }
 
-    // Captura os parâmetros "anime" e "id" da URL
-    const animeQuery = url.searchParams.get('anime'); // Captura 'anime' do query parameter
-    const idQuery = url.searchParams.get('id'); // Captura 'id' do query parameter
-
     let personagensFiltrados = categoria;
 
-    // Se o parâmetro "anime" estiver presente, filtra os personagens por esse anime
-    if (animeQuery) {
-      personagensFiltrados = personagensFiltrados.filter(personagem =>
-        personagem.anime.toLowerCase() === animeQuery.toLowerCase()
-      );
-    }
+    // Substitui espaços por hífens e converte para minúsculas
+    const nomeComHifen = idOuNome ? idOuNome.replace(/ /g, '-').toLowerCase() : '';
 
-    // Se o parâmetro "id" estiver presente, filtra os personagens por esse ID
-    if (idQuery) {
+    // Filtra os personagens por ID ou nome completo
+    if (nomeComHifen) {
       personagensFiltrados = personagensFiltrados.filter(personagem =>
-        personagem.id.toString() === idQuery
+        personagem.id.toString() === nomeComHifen || personagem.nome.replace(/ /g, '-').toLowerCase() === nomeComHifen
       );
     }
 
