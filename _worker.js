@@ -42,7 +42,7 @@ export default {
 
       const personagemEncontrado = data.find(personagem =>
         personagem.id.toString() === idOuNome || 
-        personagem.nome.replace(/ /g, '-').toLowerCase() === nomeComHifen
+        personagem.personagem.replace(/ /g, '-').toLowerCase() === nomeComHifen
       );
 
       // Verifica se o personagem foi encontrado
