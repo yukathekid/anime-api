@@ -1,9 +1,10 @@
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-
+    
     // Captura a versão da URL (ex: '/v1')
-    const version = url.pathname.split('/')[2]; // Obtém a parte da versão
+    const pathParts = url.pathname.split('/').filter(part => part); // Divide e filtra partes vazias
+    const version = pathParts[1]; // A versão deve ser a segunda parte (índice 1)
 
     // Verifica se a versão é suportada
     if (version !== 'v1') {
@@ -11,11 +12,11 @@ export default {
     }
 
     // Captura a categoria (ex: 'shinobi') da URL
-    const categoriaQuery = url.pathname.split('/')[3]; // Pega a próxima parte do caminho
+    const categoriaQuery = pathParts[2]; // Pega a próxima parte do caminho
 
     // Exemplo: Busca o JSON de personagens que você hospedou no GitHub Pages
     const response = await fetch('https://yukathekid.github.io/anime-api/v1/characters.json');
-    
+
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       return new Response('Erro ao buscar dados', { status: 500 });
