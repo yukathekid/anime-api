@@ -4,7 +4,7 @@ export default {
 
     // Captura a versão da URL (ex: 'v1' ou 'v2')
     const pathSegments = url.pathname.split('/');
-    const version = pathSegments[2]; // A versão será a segunda parte do caminho (índice 2)
+    const version = pathSegments[1]; // A versão será a segunda parte do caminho (índice 2)
 
     // Lista de versões suportadas
     const supportedVersions = ['v1', 'v2'];
