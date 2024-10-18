@@ -7,7 +7,7 @@ export default {
     const version = pathSegments[2]; // A versão será a segunda parte da URL (índice 2)
 
     // Verifica se a versão é suportada
-    if (!(await isVersionSupported(version))) {
+    if (!await isVersionSupported(version)) {
       return new Response('Versão não suportada', { status: 404 });
     }
 
