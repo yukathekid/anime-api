@@ -16,11 +16,14 @@ export default {
 
     // Captura a categoria
     const categoriaQuery = pathSegments[2]; // Pega a segunda parte do caminho, deve ser 'images'
-
+    
     // Verifica se a categoria é 'images'
     if (categoriaQuery !== 'images') {
       return new Response('Categoria não encontrada', { status: 404 });
     }
+
+    // Captura o ID do personagem, se presente
+    const idOuNome = pathSegments[3]; // Pega a terceira parte do caminho, que pode ser o ID ou nome
 
     // Busca o JSON de personagens do GitHub Pages
     const response = await fetch(`https://yukathekid.github.io/anime-api/${version}/characters.json`);
@@ -32,7 +35,28 @@ export default {
 
     const data = await response.json();
 
-    // Embaralha a lista de personagens
+    // Se um ID ou nome for fornecido, procura o personagem específico
+    if (idOuNome) {
+      // Substitui espaços por hífens e converte para minúsculas
+      const nomeComHifen = idOuNome.replace(/ /g, '-').toLowerCase();
+
+      const personagemEncontrado = data.find(personagem =>
+        personagem.id.toString() === idOuNome || 
+        personagem.nome.replace(/ /g, '-').toLowerCase() === nomeComHifen
+      );
+
+      // Verifica se o personagem foi encontrado
+      if (!personagemEncontrado) {
+        return new Response('Personagem não encontrado', { status: 404 });
+      }
+
+      // Retorna o personagem específico em formato JSON
+      return new Response(JSON.stringify(personagemEncontrado), {
+        headers: { 'content-type': 'application/json' }
+      });
+    }
+
+    // Se nenhum ID ou nome for fornecido, embaralha e retorna todos os personagens
     const personagensAleatorios = shuffleArray(data);
 
     // Retorna a lista de personagens em formato JSON
@@ -49,4 +73,4 @@ function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]]; // Troca os elementos
   }
   return array;
-}
+  }
