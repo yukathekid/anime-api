@@ -1,13 +1,12 @@
 export default {
   async fetch(request, env, ctx) {
-    // Captura a URL completa
     const url = new URL(request.url);
 
     // Captura o caminho da categoria (ex: 'shinobi')
     const categoriaQuery = url.pathname.split('/').pop(); // Pega a última parte do caminho, como 'shinobi'
 
     // Exemplo: Busca o JSON de personagens que você hospedou no GitHub Pages
-    const response = await fetch('https://seu-usuario.github.io/anime-api/personagens.json');
+    const response = await fetch('https://yukathekid.github.io/anime-api/v1/characters.json');
     
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
