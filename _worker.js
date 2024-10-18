@@ -10,7 +10,13 @@ async function handleRequest(request) {
   const categoriaQuery = url.pathname.split('/').pop(); // Pega a última parte do caminho, como 'shinobi'
 
   // Exemplo: Busca o JSON de personagens que você hospedou no GitHub Pages
-  const response = await fetch('https://yukathekid.github.io/anime-api/personagens.json');
+  const response = await fetch('https://yukathekid.github.io/anime-api/characters.json');
+  
+  // Verifica se a resposta foi bem-sucedida
+  if (!response.ok) {
+    return new Response('Erro ao buscar dados', { status: 500 });
+  }
+  
   const data = await response.json();
 
   // Busca a categoria (ex: 'shinobi') dentro do JSON
