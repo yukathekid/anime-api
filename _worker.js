@@ -7,7 +7,7 @@ export default {
     const version = pathSegments[1]; // A versão será a segunda parte do caminho (índice 2)
 
     // Lista de versões suportadas
-    const supportedVersions = ['v1', 'v2'];
+    const supportedVersions = ['v1'];
 
     // Verifica se a versão é suportada
     if (!supportedVersions.includes(version)) {
@@ -64,23 +64,5 @@ export default {
     return new Response(JSON.stringify(personagensFiltrados), {
       headers: { 'content-type': 'application/json' }
     });
-  }
-}
-
-// Função para verificar se a versão é suportada
-async function isVersionSupported(version) {
-  // Verifica se a URL da versão existe
-  const response = await fetch(`https://yukathekid.github.io/anime-api/${version}/characters.json`);
-
-  // Se a URL for acessível e retornar um JSON válido
-  if (!response.ok) {
-    return false; // Se não for um sucesso (ex: 404)
-  }
-
-  try {
-    const data = await response.json();
-    return data && typeof data === 'object'; // Verifica se o retorno é um objeto
-  } catch (error) {
-    return false; // Se não conseguir parsear o JSON
   }
 }
