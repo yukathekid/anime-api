@@ -69,6 +69,15 @@ async function isVersionSupported(version) {
   // Verifica se a URL da versão existe
   const response = await fetch(`https://yukathekid.github.io/anime-api/${version}/characters.json`);
   
-  // Retorna true se a resposta for bem-sucedida (status 200)
-  return response.ok;
+  // Se a URL for acessível e retornar um JSON válido
+  if (!response.ok) {
+    return false; // Se não for um sucesso (ex: 404)
+  }
+
+  try {
+    const data = await response.json();
+    return data && typeof data === 'object'; // Verifica se o retorno é um objeto
+  } catch (error) {
+    return false; // Se não conseguir parsear o JSON
+  }
 }
