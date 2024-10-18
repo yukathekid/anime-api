@@ -1,26 +1,14 @@
 [
   {
     "id": 1,
-    "anime": "Naruto",
+    "anime": "Naruto Clássico",
     "personagem": "Naruto Uzumaki",
-    "imagem": "https://exemplo.com/imagens/naruto.jpg"
+    "imagem": "https://i.postimg.cc/j5Jw8Yc1/20241018-125310.jpg"
   },
   {
     "id": 2,
-    "anime": "Naruto",
+    "anime": "Naruto Clássico",
     "personagem": "Sasuke Uchiha",
-    "imagem": "https://exemplo.com/imagens/sasuke.jpg"
+    "imagem": "https://i.postimg.cc/W1WdT1fK/20241018-125418.jpg"
   },
-  {
-    "id": 3,
-    "anime": "Dragon Ball Z",
-    "personagem": "Son Goku",
-    "imagem": "https://exemplo.com/imagens/goku.jpg"
-  },
-  {
-    "id": 4,
-    "anime": "Dragon Ball Z",
-    "personagem": "Vegeta",
-    "imagem": "https://exemplo.com/imagens/vegeta.jpg"
-  }
 ]
