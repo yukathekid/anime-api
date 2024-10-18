@@ -14,9 +14,14 @@ export default {
       return new Response('Versão não suportada', { status: 404 });
     }
 
-    // Captura a categoria e o ID/nome da URL
-    const categoriaQuery = pathSegments[2]; // Pega a segunda parte do caminho, como 'shinobi'
+    // Captura a categoria (deve ser sempre 'images') e o ID/nome da URL
+    const categoriaQuery = pathSegments[2]; // Pega a segunda parte do caminho, deve ser 'images'
     const idOuNome = pathSegments[3]; // Pega a terceira parte do caminho, que pode ser o ID ou nome
+
+    // Verifica se a categoria é 'images'
+    if (categoriaQuery !== 'images') {
+      return new Response('Categoria não encontrada', { status: 404 });
+    }
 
     // Busca o JSON de personagens do GitHub Pages
     const response = await fetch(`https://yukathekid.github.io/anime-api/${version}/characters.json`);
@@ -28,25 +33,13 @@ export default {
 
     const data = await response.json();
 
-    // Busca a categoria (ex: 'shinobi') dentro do JSON
-    const categoria = data[categoriaQuery];
-
-    // Verifica se a categoria existe no JSON
-    if (!categoria) {
-      return new Response('Categoria não encontrada', { status: 404 });
-    }
-
-    let personagensFiltrados = categoria;
-
-    // Substitui espaços por hífens e converte para minúsculas
+    // Substitui espaços por hífens e converte o nome para minúsculas
     const nomeComHifen = idOuNome ? idOuNome.replace(/ /g, '-').toLowerCase() : '';
 
-    // Filtra os personagens por ID ou nome completo
-    if (nomeComHifen) {
-      personagensFiltrados = personagensFiltrados.filter(personagem =>
-        personagem.id.toString() === nomeComHifen || personagem.nome.replace(/ /g, '-').toLowerCase() === nomeComHifen
-      );
-    }
+    // Filtra os personagens por ID ou nome
+    let personagensFiltrados = data.filter(personagem =>
+      personagem.id.toString() === nomeComHifen || personagem.personagem.replace(/ /g, '-').toLowerCase() === nomeComHifen
+    );
 
     // Verifica se encontrou algum personagem após os filtros
     if (personagensFiltrados.length === 0) {
