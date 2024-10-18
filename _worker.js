@@ -14,9 +14,8 @@ export default {
       return new Response('Versão não suportada', { status: 404 });
     }
 
-    // Captura a categoria (deve ser sempre 'images') e o ID/nome da URL
+    // Captura a categoria
     const categoriaQuery = pathSegments[2]; // Pega a segunda parte do caminho, deve ser 'images'
-    const idOuNome = pathSegments[3]; // Pega a terceira parte do caminho, que pode ser o ID ou nome
 
     // Verifica se a categoria é 'images'
     if (categoriaQuery !== 'images') {
@@ -33,22 +32,21 @@ export default {
 
     const data = await response.json();
 
-    // Substitui espaços por hífens e converte o nome para minúsculas
-    const nomeComHifen = idOuNome ? idOuNome.replace(/ /g, '-').toLowerCase() : '';
+    // Embaralha a lista de personagens
+    const personagensAleatorios = shuffleArray(data);
 
-    // Filtra os personagens por ID ou nome
-    let personagensFiltrados = data.filter(personagem =>
-      personagem.id.toString() === nomeComHifen || personagem.personagem.replace(/ /g, '-').toLowerCase() === nomeComHifen
-    );
-
-    // Verifica se encontrou algum personagem após os filtros
-    if (personagensFiltrados.length === 0) {
-      return new Response('Personagem não encontrado', { status: 404 });
-    }
-
-    // Retorna o(s) personagem(ns) filtrado(s) em formato JSON
-    return new Response(JSON.stringify(personagensFiltrados), {
+    // Retorna a lista de personagens em formato JSON
+    return new Response(JSON.stringify(personagensAleatorios), {
       headers: { 'content-type': 'application/json' }
     });
   }
+}
+
+// Função para embaralhar um array
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Troca os elementos
+  }
+  return array;
 }
