@@ -2,8 +2,16 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Captura o caminho da categoria (ex: 'shinobi')
-    const categoriaQuery = url.pathname.split('/').pop(); // Pega a última parte do caminho, como 'shinobi'
+    // Captura a versão da URL (ex: '/v1')
+    const version = url.pathname.split('/')[2]; // Obtém a parte da versão
+
+    // Verifica se a versão é suportada
+    if (version !== 'v1') {
+      return new Response('Versão não suportada', { status: 404 });
+    }
+
+    // Captura a categoria (ex: 'shinobi') da URL
+    const categoriaQuery = url.pathname.split('/')[3]; // Pega a próxima parte do caminho
 
     // Exemplo: Busca o JSON de personagens que você hospedou no GitHub Pages
     const response = await fetch('https://yukathekid.github.io/anime-api/v1/characters.json');
