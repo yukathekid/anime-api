@@ -1,10 +1,26 @@
-{
-  "waifu": [
-    { "id": 0, "nome": "Rem", "anime": "Re:Zero", "raridade": "Comum", "imagem": "https://link-da-imagem.com/rem.jpg" },
-    { "id": 1, "nome": "Asuna", "anime": "Sword Art Online", "raridade": "Raro", "imagem": "https://link-da-imagem.com/asuna.jpg" }
-  ],
-  "shinobi": [
-    { "id": 0, "nome": "Naruto Uzumaki", "anime": "Naruto", "raridade": "Comum", "imagem": "https://link-da-imagem.com/naruto.jpg" },
-    { "id": 1, "nome": "Sasuke Uchiha", "anime": "Naruto", "raridade": "Épico", "imagem": "https://link-da-imagem.com/sasuke.jpg" }
-  ]
-}
+[
+  {
+    "id": 1,
+    "anime": "Naruto",
+    "personagem": "Naruto Uzumaki",
+    "imagem": "https://exemplo.com/imagens/naruto.jpg"
+  },
+  {
+    "id": 2,
+    "anime": "Naruto",
+    "personagem": "Sasuke Uchiha",
+    "imagem": "https://exemplo.com/imagens/sasuke.jpg"
+  },
+  {
+    "id": 3,
+    "anime": "Dragon Ball Z",
+    "personagem": "Son Goku",
+    "imagem": "https://exemplo.com/imagens/goku.jpg"
+  },
+  {
+    "id": 4,
+    "anime": "Dragon Ball Z",
+    "personagem": "Vegeta",
+    "imagem": "https://exemplo.com/imagens/vegeta.jpg"
+  }
+]
