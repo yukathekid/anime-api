@@ -68,7 +68,7 @@ export default {
 async function isVersionSupported(version) {
   // Verifica se a URL da versão existe
   const response = await fetch(`https://yukathekid.github.io/anime-api/${version}/characters.json`);
-  
+
   // Se a URL for acessível e retornar um JSON válido
   if (!response.ok) {
     return false; // Se não for um sucesso (ex: 404)
