@@ -37,10 +37,24 @@ export default {
         });
       }
 
-      return new Response('ID não especificado', { status: 400 });
+      // Se não tiver ID, embaralha e retorna todos os personagens
+      const personagensAleatorios = shuffleArray(personagensValidos);
+
+      return new Response(JSON.stringify(personagensAleatorios), {
+        headers: { 'content-type': 'application/json' }
+      });
 
     } catch (err) {
       return new Response(`Erro no Worker: ${err.message}`, { status: 500 });
     }
   }
+}
+
+// Função para embaralhar um array
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Troca os elementos
+  }
+  return array;
 }
