@@ -3,12 +3,14 @@
     "id": 1,
     "anime": "Naruto Clássico",
     "personagem": "Naruto Uzumaki",
+    "raridade": "Comum",
     "imagem": "https://i.postimg.cc/j5Jw8Yc1/20241018-125310.jpg"
   },
   {
     "id": 2,
     "anime": "Naruto Clássico",
     "personagem": "Sasuke Uchiha",
+    "raridade": "Comum",
     "imagem": "https://i.postimg.cc/W1WdT1fK/20241018-125418.jpg"
   },
   {}
