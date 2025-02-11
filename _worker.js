@@ -2,7 +2,7 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const pathSegments = url.pathname.split('/');
-    const version = pathSegments[1]; // A versão será a primeira parte do caminho (ex: v1)
+    const version = pathSegments[1]; // A versão será a primeira parte do caminho (ex: v1) teste
 
     const supportedVersions = ['v1'];
     if (!supportedVersions.includes(version)) {
