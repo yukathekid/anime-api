@@ -1,60 +1,45 @@
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request) {
     const url = new URL(request.url);
-    const pathSegments = url.pathname.split('/');
-    const version = pathSegments[1]; // A versão será a primeira parte do caminho (ex: v1) teste
-
-    const supportedVersions = ['v1'];
-    if (!supportedVersions.includes(version)) {
-      return new Response('Versão não suportada', { status: 404 });
+    const userId = url.searchParams.get("userId");
+    if (!userId) {
+      return new Response(JSON.stringify({ error: "Falta o userId" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    const categoriaQuery = pathSegments[2]; // Deve ser 'images'
-    if (categoriaQuery !== 'images') {
-      return new Response('Categoria não encontrada', { status: 404 });
-    }
+    const apiKey = "AIzaSyCB1eeuE2MxRbzWuhxOoiF3EDo9Qit0fag"; // Substitua pela sua chave de API do Google
 
-    const idOuNome = pathSegments[3]; // Pega o ID
+    const apiUrl = `https://www.googleapis.com/blogger/v3/users/${userId}?key=${apiKey}`;
 
     try {
-      // Busca o JSON de personagens
-      const response = await fetch(`https://yukathekid.github.io/anime-api/${version}/characters.json`);
-      if (!response.ok) throw new Error('Erro ao buscar o JSON');
+      const res = await fetch(apiUrl);
 
-      const data = await response.json();
-
-      // Filtra objetos válidos
-      const personagensValidos = data.filter(personagem => personagem.id && personagem.personagem && personagem.imagem);
-
-      if (idOuNome) {
-        const personagemEncontrado = personagensValidos.find(personagem => personagem.id.toString() === idOuNome);
-        if (!personagemEncontrado) {
-          return new Response('Personagem não encontrado', { status: 404 });
-        }
-
-        return new Response(JSON.stringify(personagemEncontrado), {
-          headers: { 'content-type': 'application/json' }
-        });
+      if (!res.ok) {
+        return new Response(
+          JSON.stringify({ error: `Erro na API do Blogger: ${res.status}` }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
       }
 
-      // Se não tiver ID, embaralha e retorna todos os personagens
-      const personagensAleatorios = shuffleArray(personagensValidos);
+      const data = await res.json();
 
-      return new Response(JSON.stringify(personagensAleatorios), {
-        headers: { 'content-type': 'application/json' }
+      const perfil = {
+        nome: data.displayName || "",
+        foto: data.image?.url || "",
+        bio: data.about || "",
+      };
+
+      return new Response(JSON.stringify(perfil), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
       });
-
-    } catch (err) {
-      return new Response(`Erro no Worker: ${err.message}`, { status: 500 });
+    } catch (e) {
+      return new Response(
+        JSON.stringify({ error: "Erro interno no Worker", details: e.message }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
     }
-  }
-}
-
-// Função para embaralhar um array
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // Troca os elementos
-  }
-  return array;
-}
+  },
+};
