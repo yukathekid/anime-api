@@ -9,7 +9,7 @@ export default {
       });
     }
 
-    const apiKey = "AIzaSyCB1eeuE2MxRbzWuhxOoiF3EDo9Qit0fag"; // Substitua pela sua chave de API do Google
+    const apiKey = "AIzaSyBWc3xZ1yUc08r1Y0D5CtwWoKs-hMs_JNc"; // Substitua pela sua chave de API do Google
 
     const apiUrl = `https://www.googleapis.com/blogger/v3/users/${userId}?key=${apiKey}`;
 
